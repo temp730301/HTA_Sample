@@ -1,0 +1,108 @@
+<HTA:APPLICATION
+	APPLICATIONNAME="menu"
+	BORDER="thin"
+	BORDERSTYLE="normal"
+	ID="Yes"
+	SINGLEINSTANCE="yes"
+	WINDOWSTATE="normal"
+/>
+<html>
+	<head>
+		<title>ADB Tools</title>
+	</head>
+	<body>
+		<table border="1" cellspacing="0" cellpadding="2" width="300" height="20">
+			<tr>
+				<td bordercolor="#45607a" bgcolor="#ffffff" align=center
+					onmouseover="this.style.background='#ffff00'"
+					onmouseout="this.style.background='#ffffff'"
+					onclick="updateList()">
+					çXêV
+				</td>
+			</tr>
+		</table>
+		<div id="listArea">
+			<table id="listData">
+			</table>
+		</div>
+
+		<select size="2" name="LocalUsers" style="height:100px;width:300px;"> 
+    	</select> 
+
+	</body>
+
+	<style type="text/css">
+		body{
+			margin:0px;
+			padding:0px;
+		}
+		div{
+			text-indent: 1em;
+			height:41px;
+			font-family:Meiryo UI;
+			font-size:18px;
+			margin:0px;
+			padding:0px:
+			padding-left:40px;
+/*			text-align:center;*/
+			line-height: 40px;
+		}
+
+		a {
+			text-decoration: none;
+		}
+	</style>
+	<SCRIPT Language="javascript"> 
+		function delItem() {
+			var child = document.getElementById('listData');
+			child.parentNode.removeChild(child);
+		}
+	</SCRIPT> 
+	<SCRIPT Language="VBScript"> 
+		Function listMouseOver()
+			me.style.background="#ffff00"
+		End Function
+		Function listMouseout()
+			me.style.background="#ffffff"
+		End Function
+
+		Sub Window_Onload
+			call updateList
+		End Sub
+
+		Sub updateList
+
+			call delItem
+			dim fso
+			set fso = createObject("Scripting.FileSystemObject")
+
+			dim folder
+			set folder = fso.getFolder("C:\tmp")
+			dim subfolder
+			dim ListNo
+			ListNo=0
+
+			set div = document.getElementById("listArea")
+			set tab = document.createElement("table")
+			tab.id = "listData"
+			tab.setAttribute "border","1"
+			set tbd = document.createElement("tbody")
+			div.appendChild tab
+			tab.appendChild tbd
+			for each subfolder in folder.subfolders
+				set tr  = document.createElement("tr")
+				tbd.appendChild tr
+				set td1 = document.createElement("td")
+			    td1.innerText = ListNo
+				tr.appendChild td1
+				set td2 = document.createElement("td")
+				set td2.onmouseover=getRef("listMouseOver")
+				set td2.onmouseout=getRef("listMouseout")
+				td2.innerText = subfolder.name
+				tr.appendChild td2
+				ListNo = ListNo +1
+			next
+	    End Sub
+
+	</SCRIPT> 
+</html>
